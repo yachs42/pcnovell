@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e0e">
+<meta name="description" content="Собери игровой ПК за 150 000 ₽. Интерактивный конфигуратор с автоматической защитой бюджета заказчика.">
+<title>CORECRAFT — собери ПК без переплат</title>
+<style>
+:root{--bg:#0b0e0e;--panel:#141918;--panel2:#1a201e;--line:#2b332f;--line2:#38433d;--text:#f0f3ed;--muted:#929d96;--dim:#66746c;--acid:#c5fc64;--acid-bright:#d7ff8f;--gold:#edc38f;--danger:#ff9e86;--safe:#c5fc64;--shade:rgba(0,0,0,.42)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);background:var(--bg);font-family:Inter,"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}button,a{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed}a{color:inherit}::selection{background:var(--acid);color:#101710}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse 800px 550px at 15% -25%,rgba(178,241,95,.10),transparent 75%),radial-gradient(ellipse 570px 570px at 100% 12%,rgba(108,160,124,.06),transparent 72%);z-index:0}
+#app{position:relative;z-index:1;max-width:1392px;margin:0 auto;padding:0 40px 88px}
+.topbar{height:88px;display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid #242b27}.brand{display:inline-flex;align-items:center;gap:13px;text-decoration:none}.brand-symbol{width:35px;height:35px;background:var(--acid);border-radius:11px;display:grid;place-items:center;color:#11170d;transform:rotate(-8deg)}.brand-symbol svg{width:23px;height:23px;transform:rotate(8deg)}.brand-name{font-weight:900;letter-spacing:-.065em;font-size:23px}.brand-name span{color:var(--acid)}.brand-sub{display:block;font-size:10px;letter-spacing:.17em;text-transform:uppercase;color:var(--dim);margin-top:2px}.nav-right{display:flex;align-items:center;gap:13px}.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--acid);box-shadow:0 0 18px rgba(197,252,100,.75)}.nav-status{font-size:12px;font-weight:750;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.nav-sep{width:1px;height:19px;background:var(--line)}.nav-tag{font-size:12px;color:var(--dim);letter-spacing:.07em}.screen{display:none;animation:fade .32s both}.screen.on{display:block}@keyframes fade{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--acid)}.eyebrow:before{content:"";width:24px;height:2px;background:var(--acid)}
+.hero{min-height:670px;display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);align-items:center;gap:54px;padding:58px 0 20px}.hero-text{position:relative;z-index:1}.hero h1{margin:24px 0 22px;font-size:clamp(51px,5.5vw,82px);line-height:1.045;font-weight:850;letter-spacing:-.075em;max-width:780px}.hero h1 .accent{color:var(--acid)}.hero-lead{max-width:490px;font-size:17px;line-height:1.75;color:#a8b3aa;margin:0 0 32px}.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px}.btn{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:11px;min-height:53px;padding:14px 25px;border:1px solid transparent;border-radius:11px;background:var(--acid);color:#11190d;font-size:14px;font-weight:850;transition:transform .18s,background .18s,border-color .18s,box-shadow .18s;white-space:nowrap}.btn:hover:not(:disabled){transform:translateY(-2px);background:var(--acid-bright);box-shadow:0 12px 28px rgba(197,252,100,.13)}.btn:active:not(:disabled){transform:translateY(0)}.btn:focus-visible,.tab:focus-visible,.product:focus-visible,.text-btn:focus-visible,.step-button:focus-visible{outline:2px solid var(--acid);outline-offset:3px}.btn:disabled{background:#3a4637;color:#85937e;border-color:var(--line);box-shadow:none}.btn svg{width:18px;height:18px}.btn.ghost{color:var(--text);background:transparent;border-color:var(--line2)}.btn.ghost:hover:not(:disabled){background:#1d2620;box-shadow:none;border-color:var(--acid)}.small-note{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted)}.small-note svg{width:16px;height:16px;color:var(--acid)}
+.hero-metrics{margin-top:65px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;max-width:540px}.metric{padding-top:16px;border-top:1px solid var(--line2)}.metric b{display:block;font-size:26px;font-weight:850;letter-spacing:-.055em;font-variant-numeric:tabular-nums}.metric small{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.095em;margin-top:8px}
+.hero-art{height:560px;position:relative;display:flex;align-items:center;justify-content:center;isolation:isolate}.hero-art:before{position:absolute;content:"";width:460px;height:460px;border:1px solid rgba(197,252,100,.105);border-radius:50%;box-shadow:0 0 0 80px rgba(197,252,100,.014),0 0 0 160px rgba(197,252,100,.009)}.hero-art:after{content:"";position:absolute;width:76%;height:80px;border-radius:50%;background:#000;filter:blur(37px);bottom:10px;z-index:-1}.art-grid{position:absolute;inset:10% 3%;background-image:linear-gradient(rgba(197,252,100,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(197,252,100,.045) 1px,transparent 1px);background-size:29px 29px;mask-image:radial-gradient(ellipse,#000 12%,transparent 68%)}
+.pc-case{width:278px;height:423px;position:relative;transform:perspective(900px) rotateY(-15deg) rotateX(3deg);border-radius:16px 22px 13px 13px;background:linear-gradient(130deg,#313c35 0,#1a2320 28%,#090f0e 60%,#1c2822 100%);border:3px solid #47594b;box-shadow:29px 22px 4px #080b08,32px 25px 15px rgba(0,0,0,.7),inset -9px 2px 20px rgba(0,0,0,.7),0 0 100px rgba(197,252,100,.07);z-index:2}.pc-case:before{content:"";position:absolute;width:46px;top:3px;bottom:3px;right:-46px;background:linear-gradient(90deg,#202c23,#101813);clip-path:polygon(0 0,100% 10px,100% calc(100% - 8px),0 100%);border-radius:0 12px 12px 0}.case-glass{position:absolute;inset:17px 22px 20px 16px;border:1px solid #51634e;border-radius:9px;background:linear-gradient(120deg,rgba(197,252,100,.02) 3%,transparent 33%,rgba(197,252,100,.035) 62%,transparent),linear-gradient(145deg,#1c2824 0%,#0e1512 75%);box-shadow:inset 0 0 70px rgba(164,245,96,.055);overflow:hidden}.glass-lines{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0,transparent 27px,rgba(194,240,145,.023) 28px);opacity:.7}.pcb{position:absolute;width:138px;height:203px;border-radius:5px;left:16px;top:75px;border:1px solid #344c35;background:linear-gradient(135deg,#1f3022,#101d17);box-shadow:inset 0 0 14px #0b140d}.pcb:before{content:"";position:absolute;inset:10px;background:repeating-linear-gradient(0deg,transparent 0,transparent 18px,rgba(167,255,99,.09) 19px,transparent 20px);opacity:.75}.cpu-block{position:absolute;left:39px;top:104px;width:80px;height:71px;border-radius:6px;background:linear-gradient(145deg,#3a4f3b,#192719);border:6px solid #142017;box-shadow:0 0 0 2px #637859,0 0 24px rgba(197,252,100,.12)}.cpu-block:after{content:"";position:absolute;inset:11px;border:2px solid var(--acid);border-radius:5px;box-shadow:0 0 16px rgba(197,252,100,.23)}.gpu-block{position:absolute;left:19px;right:2px;height:69px;top:226px;background:linear-gradient(135deg,#434d45,#1d2720 55%,#101711);border:2px solid #748e70;border-radius:7px;box-shadow:0 10px 9px rgba(0,0,0,.5);transform:rotate(-2deg)}.gpu-block:before{content:"";position:absolute;width:46px;height:46px;left:27px;top:9px;border-radius:50%;border:5px solid #a0c78b;box-shadow:inset 0 0 0 9px #29362b,0 0 12px rgba(197,252,100,.2)}.gpu-block:after{content:"";position:absolute;left:93px;right:10px;top:17px;height:6px;background:var(--acid);border-radius:10px;box-shadow:0 12px 0 #3f6842,0 24px 0 #3f6842}.fan{position:absolute;right:12px;width:100px;height:100px;border-radius:50%;border:8px solid #3c5640;background:radial-gradient(circle,#d4ffb2 0 7px,#263e2c 8px 13px,transparent 14px),conic-gradient(from 10deg,#4b8050 0 27deg,#192f1d 27deg 60deg,#4b8050 60deg 87deg,#192f1d 87deg 120deg,#4b8050 120deg 147deg,#192f1d 147deg 180deg,#4b8050 180deg 207deg,#192f1d 207deg 240deg,#4b8050 240deg 267deg,#192f1d 267deg 300deg,#4b8050 300deg 327deg,#192f1d 327deg 360deg);box-shadow:0 0 0 4px #142016,0 0 24px rgba(197,252,100,.16),inset 0 0 16px rgba(197,252,100,.15)}.fan.one{top:18px}.fan.two{top:124px}.fan.three{top:230px}.case-led{position:absolute;top:22px;bottom:18px;right:12px;width:3px;border-radius:9px;background:var(--acid);box-shadow:0 0 13px var(--acid),0 0 24px rgba(197,252,100,.35)}.case-feet{position:absolute;bottom:-15px;height:18px;width:47px;background:#141b15;border-radius:0 0 5px 5px;box-shadow:0 10px 10px #000}.case-feet.left{left:24px}.case-feet.right{right:26px}.spec-float{position:absolute;z-index:3;border:1px solid rgba(191,237,145,.23);border-radius:12px;background:rgba(23,31,26,.91);backdrop-filter:blur(13px);padding:12px 17px;box-shadow:0 13px 45px rgba(0,0,0,.29)}.spec-float .spec-label{font-size:10px;letter-spacing:.14em;color:#8caa83;text-transform:uppercase}.spec-float strong{display:block;margin-top:6px;font-size:18px;font-weight:850;letter-spacing:-.04em}.float-first{top:100px;left:8px}.float-last{bottom:82px;right:0}.float-last strong{color:var(--acid)}
+.bottom-strip{display:flex;align-items:center;gap:17px;padding:21px 0 0;border-top:1px solid var(--line);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}.bottom-strip .bar-line{flex:1;background:var(--line);height:1px}.bottom-strip b{font-size:11px;font-weight:750;color:var(--muted)}
+.intro-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr);gap:22px;margin-top:64px;align-items:stretch}.intro-panel,.brief-panel,.budget-shell,.aside-shell,.review-shell{background:var(--panel);border:1px solid var(--line);border-radius:18px}.intro-panel{padding:42px}.intro-panel h2,.section-title{font-size:clamp(29px,3.2vw,43px);letter-spacing:-.055em;line-height:1.1;margin:17px 0 26px}.client-row{display:flex;align-items:center;gap:14px;margin-bottom:22px}.avatar{height:60px;width:60px;border-radius:18px;background:linear-gradient(135deg,#374834,#202d21);border:1px solid #526e47;display:grid;place-items:center;color:var(--acid);font-weight:950;font-size:22px;letter-spacing:-.08em}.client-row strong{display:block;font-size:16px;font-weight:850}.client-row small{display:block;margin-top:4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}.speech-block{border-left:2px solid var(--acid);padding:7px 0 7px 23px;min-height:120px;display:flex;align-items:center;font-size:21px;line-height:1.5;font-weight:560;color:#edf1e6}.speech-block em{font-style:normal;color:var(--acid);font-weight:780}.intro-controls{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:40px}.dots{display:flex;gap:8px}.dots i{display:block;width:7px;height:7px;border-radius:100px;background:#536151;transition:width .2s,background .2s}.dots i.active{width:28px;background:var(--acid)}.brief-panel{padding:34px;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(circle at 100% 0,rgba(197,252,100,.1),transparent 50%),#171d19}.panel-label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:800}.brief-panel h3{font-size:24px;line-height:1.17;letter-spacing:-.05em;margin:18px 0}.brief-items{display:grid;gap:0;margin-top:24px}.brief-row{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:19px 0;border-bottom:1px solid var(--line)}.brief-row span{font-size:13px;color:var(--muted)}.brief-row strong{font-size:14px}.brief-footer{font-size:12px;line-height:1.7;color:var(--muted);margin-top:35px}.brief-footer svg{width:17px;height:17px;color:var(--acid);vertical-align:middle;margin-right:6px}
+#hud{display:none;margin-top:28px}#hud.on{display:flex}.hud-top{display:flex;gap:13px;justify-content:space-between;align-items:stretch}.budget-shell{display:grid;grid-template-columns:1fr 1fr 1fr;flex:1;overflow:hidden}.hud-box{padding:22px 25px;border-right:1px solid var(--line)}.hud-box:last-child{border:0}.hud-box small{display:block;font-size:10px;color:var(--muted);font-weight:850;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}.hud-box strong{display:block;font-size:25px;line-height:1.1;letter-spacing:-.055em;font-variant-numeric:tabular-nums}.hud-box strong.positive{color:var(--acid)}.progress-shell{width:255px;flex:0 0 255px;border-radius:18px;padding:22px 24px;background:#202a20;border:1px solid #384b30}.progress-line{display:flex;justify-content:space-between;align-items:center;gap:15px;font-size:12px;color:#b5c8ad;font-weight:700}.progress-line b{font-size:19px;color:var(--acid);letter-spacing:-.04em}.progress-track{height:6px;background:#41523a;border-radius:50px;margin-top:18px;overflow:hidden}.progress-track span{display:block;width:0;height:100%;background:var(--acid);border-radius:50px;transition:width .3s}
+.select-heading{padding:48px 0 27px}.select-heading .head-line{display:flex;align-items:center;gap:17px}.category-icon{width:56px;height:56px;flex:0 0 56px;border:1px solid #45593d;background:#222d20;border-radius:15px;color:var(--acid);display:grid;place-items:center}.category-icon svg{width:27px;height:27px;stroke-width:1.65}.select-heading h2{font-size:clamp(35px,3.8vw,51px);letter-spacing:-.063em;line-height:1.1;margin:0}.select-heading p{max-width:860px;color:var(--muted);line-height:1.7;font-size:15px;margin:16px 0 0}.select-heading p em{font-style:normal;color:var(--text);font-weight:750}.steps{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-bottom:32px}.step-button{min-width:0;height:7px;border:0;border-radius:20px;background:#323b33;padding:0;cursor:default}.step-button.done{background:#719748}.step-button.now{background:var(--acid)}
+.work-grid{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:24px;align-items:start}.work-left{min-width:0}.tier-head{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:15px}.tabs{display:inline-flex;gap:5px;padding:5px;background:#171d19;border:1px solid var(--line);border-radius:13px}.tab{padding:12px 17px;border-radius:9px;background:transparent;border:1px solid transparent;color:#94a197;font-weight:800;font-size:12px;transition:.18s}.tab:hover{color:var(--text)}.tab.active{color:#10180b;background:var(--acid)}.found-count{font-size:12px;color:var(--muted);font-weight:650}.cap-notice{display:flex;gap:12px;align-items:center;padding:14px 18px;border:1px solid #3f4c32;background:#1c261b;border-radius:13px;margin-bottom:17px;color:#c3d5b6;font-size:13px;line-height:1.5}.cap-notice strong{color:var(--acid)}.cap-notice svg{color:var(--acid);width:20px;height:20px;flex:none}
+.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.product{position:relative;min-width:0;min-height:192px;cursor:pointer;border:1px solid #303c34;background:linear-gradient(135deg,#171e1a,#131916);border-radius:16px;padding:19px;transition:background .19s,border-color .19s,transform .19s,box-shadow .19s;display:flex;flex-direction:column;gap:13px;overflow:hidden}.product:before{content:"";position:absolute;right:-36px;top:-45px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(197,252,100,.045),transparent 69%);pointer-events:none}.product:hover:not(.unavailable){transform:translateY(-3px);border-color:#76964d;background:#1a241c}.product.selected{border-color:var(--acid);box-shadow:0 0 0 1px var(--acid),0 12px 35px rgba(0,0,0,.12);background:linear-gradient(145deg,#263324,#19251b)}.product.selected .product-check{display:grid}.product.unavailable{cursor:not-allowed;opacity:.58;filter:saturate(.65)}.product.unavailable:hover{border-color:var(--line)}.product-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.product-glyph{height:42px;width:42px;border-radius:12px;background:#273329;border:1px solid #3b4b3d;display:grid;place-items:center;color:#b3ce98}.product-glyph svg{width:22px;height:22px;stroke-width:1.65}.product-number{color:#6b7c6e;font-size:11px;letter-spacing:.13em;font-weight:850}.product-check{position:absolute;top:17px;right:17px;display:none;width:25px;height:25px;border-radius:50%;place-items:center;color:#0d1807;background:var(--acid);font-weight:900;font-size:14px}.product-name{margin:0;padding-right:6px;font-size:16px;line-height:1.36;letter-spacing:-.02em;font-weight:830;overflow-wrap:anywhere}.product-note{font-size:12px;line-height:1.55;color:#98a59a;flex:1;margin:0}.product-bottom{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:end}.product-price{font-size:21px;letter-spacing:-.05em;font-weight:850;font-variant-numeric:tabular-nums;white-space:nowrap}.product-price.zero{color:var(--muted)}.product-status{display:block;font-size:10px;letter-spacing:.04em;color:var(--muted);margin-top:6px}.product-status.no{color:var(--danger)}.dns-link{position:relative;z-index:2;color:#a8c693;text-decoration:none;font-size:11px;white-space:nowrap;font-weight:800;display:inline-flex;gap:5px;align-items:center;padding-bottom:3px}.dns-link:hover{text-decoration:underline;color:var(--acid)}
+.confirm-bar{position:sticky;bottom:14px;z-index:10;display:flex;align-items:center;gap:14px;margin-top:23px;padding:14px 15px 14px 21px;background:rgba(29,37,31,.97);border:1px solid #475a41;border-radius:16px;box-shadow:0 18px 44px rgba(0,0,0,.5);backdrop-filter:blur(16px)}.confirm-info{min-width:0;flex:1}.confirm-info small{display:block;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.13em;margin-bottom:5px;font-weight:800}.confirm-info b{display:block;font-size:13px;line-height:1.35;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.confirm-info .confirm-price{font-size:12px;color:var(--acid);margin-top:4px}.confirm-bar .btn{min-height:48px;padding:12px 20px}.text-btn{padding:12px 5px;color:var(--muted);font-size:13px;font-weight:750;border:0;background:none}.text-btn:hover{color:var(--acid)}.text-btn:disabled{opacity:.4}
+.aside-shell{position:sticky;top:20px;padding:22px 22px 16px;background:#19201b}.aside-head{display:flex;justify-content:space-between;align-items:center;gap:15px}.aside-head strong{font-size:14px;letter-spacing:-.02em}.safe-pill{border-radius:40px;background:#2a3824;padding:6px 9px;color:var(--acid);font-size:10px;font-weight:850;letter-spacing:.06em}.aside-number{margin-top:26px}.aside-number small{display:block;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:.13em;font-weight:800}.aside-number strong{display:block;font-size:37px;letter-spacing:-.06em;line-height:1.2;color:var(--acid);margin-top:7px;font-variant-numeric:tabular-nums}.aside-meter{height:8px;border-radius:10px;background:#39473a;overflow:hidden;margin:19px 0 25px}.aside-meter span{display:block;background:var(--acid);height:100%;border-radius:10px;transition:width .3s}.aside-rows{display:grid;gap:13px}.aside-row{display:flex;justify-content:space-between;gap:10px;font-size:12px}.aside-row span{color:var(--muted)}.aside-row b{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}.aside-row.highlight{border-top:1px solid var(--line);padding-top:16px}.aside-row.highlight b{color:var(--acid)}.aside-divider{height:1px;background:var(--line);margin:24px 0 19px}.aside-section-title{font-size:11px;font-weight:900;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}.picked-list{margin-top:14px;display:grid;gap:7px}.picked-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #2b352e}.picked-item:last-child{border-bottom:0}.picked-item span{font-size:12px;color:#b5c2b3;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.picked-item b{font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}.picked-empty{font-size:12px;line-height:1.6;color:var(--dim)}.aside-tip{margin-top:21px;border-radius:12px;padding:13px;background:#263022;border:1px solid #364633;color:#afc5a1;font-size:11px;line-height:1.55}.aside-tip b{color:var(--acid)}
+.final-top{margin:59px 0 25px}.final-top h2{font-size:clamp(38px,5vw,65px);letter-spacing:-.07em;line-height:1.08;margin:17px 0}.final-top>p{font-size:15px;color:var(--muted);margin:0;line-height:1.6}.final-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px}.review-shell{padding:26px}.review-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px}.review-head h3{font-size:18px;letter-spacing:-.035em;margin:0}.review-head .count{font-size:11px;color:var(--muted);letter-spacing:.11em}.review-list{display:grid;gap:0}.review-row{display:grid;grid-template-columns:40px minmax(100px,.65fr) minmax(0,1.3fr) auto;align-items:center;gap:15px;border-bottom:1px solid var(--line);padding:16px 0}.review-row:last-child{border:0}.review-icon{width:39px;height:39px;border:1px solid #3d4c3a;border-radius:10px;background:#222b22;display:grid;place-items:center;color:var(--acid)}.review-icon svg{width:20px;height:20px}.review-label{font-size:11px;color:var(--muted)}.review-name{font-size:13px;line-height:1.45;font-weight:720}.review-price{font-size:14px;font-weight:850;white-space:nowrap;letter-spacing:-.03em;font-variant-numeric:tabular-nums}.final-summary{background:radial-gradient(circle at 50% 0,rgba(197,252,100,.12),transparent 50%),#1d271c;padding:28px;display:flex;flex-direction:column}.final-success{display:flex;align-items:center;gap:10px;color:var(--acid);font-size:12px;font-weight:850;letter-spacing:.12em;text-transform:uppercase}.final-success svg{width:22px;height:22px}.final-label{margin-top:30px;color:var(--muted);font-size:11px;letter-spacing:.13em;text-transform:uppercase}.final-big{font-size:43px;letter-spacing:-.065em;color:var(--acid);font-weight:850;margin-top:6px;font-variant-numeric:tabular-nums}.final-budget-line{font-size:13px;color:#b6c6b0;margin-top:8px}.final-divider{height:1px;background:#3e5138;margin:24px 0}.final-stat{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px;font-size:13px}.final-stat span{color:#b0beab}.final-stat strong{font-size:18px}.final-comment{margin:15px 0 0;padding:17px;background:#273427;border-radius:12px;color:#d2dfcb;font-size:13px;line-height:1.6;border-left:2px solid var(--acid)}.final-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}.disclaimer{font-size:12px;line-height:1.7;color:var(--dim);margin:24px 0 0}.disclaimer a{color:#b5d68f;text-underline-offset:3px}
+.footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);margin-top:65px;padding:25px 0;gap:16px;flex-wrap:wrap}.footer strong{font-size:13px;color:#b6c1b5;letter-spacing:.06em}.footer span{color:var(--dim);font-size:12px}
+@media(min-width:1200px){.product{min-height:207px}}
+@media(max-width:1100px){#app{padding:0 25px 65px}.hero{gap:22px}.hero-art{transform:scale(.9)}.work-grid{grid-template-columns:minmax(0,1fr) 275px;gap:16px}.product-grid{gap:10px}.product{padding:16px}.hero h1{font-size:clamp(47px,5.5vw,68px)}}
+@media(max-width:870px){.hero{grid-template-columns:1fr;min-height:auto;padding-top:57px;gap:6px}.hero-art{height:440px;transform:scale(.78);margin-top:-12px}.hero-metrics{margin-top:45px}.intro-layout,.final-grid{grid-template-columns:1fr}.work-grid{grid-template-columns:1fr}.aside-shell{position:static;margin-top:7px}.hud-top{flex-wrap:wrap}.progress-shell{width:100%;flex:1;min-width:210px}.budget-shell{min-width:340px}.final-summary{order:-1}.final-top{margin-top:45px}}
+@media(max-width:600px){#app{padding:0 16px 50px}.topbar{height:70px}.brand-symbol{width:31px;height:31px}.brand-name{font-size:20px}.brand-sub{font-size:8px}.nav-tag,.nav-sep{display:none}.nav-status{font-size:10px}.hero{padding-top:49px}.hero h1{font-size:clamp(44px,11vw,62px);letter-spacing:-.075em}.hero-lead{font-size:15px}.hero-art{height:340px;transform:scale(.62);margin:-24px 0}.hero-metrics{margin-top:39px;gap:12px}.metric b{font-size:21px}.metric small{line-height:1.5;font-size:10px}.bottom-strip{font-size:9px}.intro-layout{margin-top:35px}.intro-panel{padding:24px}.intro-panel h2{font-size:30px}.speech-block{font-size:18px}.brief-panel{padding:23px}.intro-controls{margin-top:28px}#hud.on{display:block}.budget-shell{min-width:0;grid-template-columns:repeat(3,1fr)}.hud-box{padding:14px 10px}.hud-box strong{font-size:clamp(15px,4.7vw,21px)}.hud-box small{font-size:9px;letter-spacing:.04em}.progress-shell{width:auto;margin-top:10px;padding:15px 17px}.progress-track{margin-top:10px}.select-heading{padding:35px 0 21px}.select-heading .head-line{gap:12px}.select-heading h2{font-size:32px}.category-icon{height:47px;width:47px;flex:0 0 47px}.category-icon svg{width:23px;height:23px}.select-heading p{font-size:13px}.steps{margin-bottom:23px}.tier-head{display:block}.tabs{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:3px}.tab{padding:12px 4px;font-size:11px}.found-count{display:block;margin:10px 0 0}.cap-notice{padding:12px;font-size:12px}.product-grid{grid-template-columns:1fr}.product{min-height:0;padding:17px}.product-name{font-size:16px}.confirm-bar{margin-left:-9px;margin-right:-9px;bottom:8px;flex-wrap:wrap;gap:9px;padding:12px}.confirm-info{flex-basis:calc(100% - 90px)}.confirm-bar .btn{flex:1;min-width:60%;min-height:43px}.text-btn{order:1}.review-shell{padding:17px}.review-row{grid-template-columns:34px 1fr auto;gap:9px;padding:14px 0}.review-label{display:none}.review-icon{width:32px;height:32px}.review-icon svg{width:17px;height:17px}.review-name{font-size:12px}.review-price{font-size:12px}.final-summary{padding:23px}.final-big{font-size:36px}.footer{margin-top:40px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <a class="brand" href="#" onclick="return false" aria-label="CORECRAFT, конструктор игровых ПК">
+      <span class="brand-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14M5 12h10M5 16h6"/></svg></span>
+      <span><span class="brand-name">CORE<span>CRAFT</span></span><span class="brand-sub">PC BUILDING EXPERIENCE</span></span>
+    </a>
+    <div class="nav-right"><span class="nav-dot"></span><span class="nav-status">BUDGET PROTECTED</span><span class="nav-sep"></span><span class="nav-tag">СЕЗОН 2026 / RU</span></div>
+  </header>
+  <section id="s-title" class="screen on">
+    <div class="hero">
+      <div class="hero-text">
+        <span class="eyebrow">Твоя следующая сборка начинается здесь</span>
+        <h1>Собери мощный ПК.<br><span class="accent">Не слей бюджет.</span></h1>
+        <p class="hero-lead">Восемь важных решений, один заказчик и жёсткий лимит. Подбери компьютер для игр в 1440p — мы не дадим потратить ни рублём больше.</p>
+        <div class="hero-actions"><button class="btn" onclick="startGame()">Начать сборку <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button><span class="small-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Перерасход заблокирован</span></div>
+        <div class="hero-metrics"><div class="metric"><b>150 000 ₽</b><small>Лимит клиента</small></div><div class="metric"><b>1440p</b><small>Целевое разрешение</small></div><div class="metric"><b>08</b><small>Шагов сборки</small></div></div>
+      </div>
+      <div class="hero-art" aria-label="Стилизованный игровой компьютер с зелёной подсветкой" role="img">
+        <div class="art-grid"></div><div class="spec-float float-first"><span class="spec-label">MISSION / 01</span><strong>BUILD A BEAST.</strong></div>
+        <div class="pc-case"><div class="case-glass"><div class="glass-lines"></div><div class="pcb"></div><div class="cpu-block"></div><div class="gpu-block"></div><div class="fan one"></div><div class="fan two"></div><div class="fan three"></div></div><div class="case-led"></div><span class="case-feet left"></span><span class="case-feet right"></span></div>
+        <div class="spec-float float-last"><span class="spec-label">OVERSPEND</span><strong>0 ₽ / LOCKED</strong></div>
+      </div>
+    </div>
+    <div class="bottom-strip"><b>01</b> ВЫБИРАЙ <div class="bar-line"></div><b>02</b> СЛЕДИ ЗА ЛИМИТОМ <div class="bar-line"></div><b>03</b> СОБЕРИ ИДЕАЛЬНЫЙ ПК</div>
+  </section>
+  <section id="s-intro" class="screen">
+    <div class="intro-layout">
+      <div class="intro-panel"><span class="eyebrow">Новый заказ / 001</span><h2>Клиент на связи.</h2><div class="client-row"><div class="avatar">А.</div><div><strong>Алексей</strong><small>Заказчик · gaming setup</small></div></div><div class="speech-block" id="intro-text" aria-live="polite"></div><div class="intro-controls"><div class="dots" id="intro-dots"></div><button class="btn" id="intro-btn" onclick="nextIntro()">Продолжить <span aria-hidden="true">→</span></button></div></div>
+      <div class="brief-panel"><div><div class="panel-label">Техническое задание</div><h3>Игровая машина.<br>Без лишних трат.</h3><div class="brief-items"><div class="brief-row"><span>Бюджет</span><strong>150 000 ₽</strong></div><div class="brief-row"><span>Игры</span><strong>1440p / QHD</strong></div><div class="brief-row"><span>Приоритет</span><strong>FPS и апгрейд</strong></div><div class="brief-row"><span>Перерасход</span><strong style="color:var(--acid)">Запрещён</strong></div></div></div><p class="brief-footer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Система автоматически резервирует минимум на оставшиеся детали.</p></div>
+    </div>
+  </section>
+  <div id="hud" class="hud-top" aria-label="Состояние бюджета"><div class="budget-shell"><div class="hud-box"><small>Бюджет клиента</small><strong id="h-budget">150 000 ₽</strong></div><div class="hud-box"><small>Уже потрачено</small><strong id="h-spent">0 ₽</strong></div><div class="hud-box"><small>Свободный остаток</small><strong class="positive" id="h-left">150 000 ₽</strong></div></div><div class="progress-shell"><div class="progress-line"><span>ПРОГРЕСС СБОРКИ</span><b id="h-step">0 / 8</b></div><div class="progress-track"><span id="h-bar"></span></div></div></div>
+  <section id="s-select" class="screen">
+    <div class="select-heading"><span class="eyebrow" id="step-kicker">Этап 01 / 08</span><div class="head-line"><span class="category-icon" id="sel-icon"></span><h2 id="sel-title">Видеокарта</h2></div><p id="sel-text"></p></div>
+    <div class="steps" id="steps" aria-label="Этапы сборки"></div>
+    <div class="work-grid">
+      <main class="work-left"><div class="tier-head"><div class="tabs" id="tabs"><button type="button" class="tab" data-tier="high" onclick="setTab('high')">Премиум</button><button type="button" class="tab" data-tier="mid" onclick="setTab('mid')">Баланс</button><button type="button" class="tab" data-tier="low" onclick="setTab('low')">Эконом</button></div><span class="found-count" id="found-count"></span></div>
+        <div class="cap-notice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span id="cap-copy"></span></div>
+        <div class="product-grid" id="grid" aria-label="Доступные комплектующие"></div>
+        <div class="confirm-bar"><div class="confirm-info"><small>Ваш выбор</small><b id="confirm-name">Выберите комплектующее</b><div class="confirm-price" id="confirm-price"></div></div><button type="button" class="text-btn" id="back-btn" onclick="goBack()">← Назад</button><button type="button" class="btn" id="confirm-btn" disabled onclick="confirmPick()">Установить <span aria-hidden="true">→</span></button></div>
+      </main>
+      <aside class="aside-shell" aria-label="Контроль бюджета"><div class="aside-head"><strong>Контроль расходов</strong><span class="safe-pill">● АКТИВЕН</span></div><div class="aside-number"><small>Можно потратить сейчас</small><strong id="aside-cap">—</strong></div><div class="aside-meter"><span id="aside-meter"></span></div><div class="aside-rows"><div class="aside-row"><span>Всего в бюджете</span><b id="aside-budget">150 000 ₽</b></div><div class="aside-row"><span>Уже потрачено</span><b id="aside-spent">0 ₽</b></div><div class="aside-row"><span>Резерв на остальные детали</span><b id="aside-reserve">—</b></div><div class="aside-row highlight"><span>Лимит этапа</span><b id="aside-limit">—</b></div></div><div class="aside-divider"></div><div class="aside-section-title">В твоей сборке</div><div class="picked-list" id="picked-list"></div><div class="aside-tip"><b>Бюджет под защитой.</b> Дорогие позиции недоступны, если после их выбора денег не хватит на остальные комплектующие.</div></aside>
+    </div>
+  </section>
+  <section id="s-final" class="screen"><div class="final-top"><span class="eyebrow">Миссия завершена</span><h2 id="final-verdict">Сборка готова.</h2><p>Все восемь этапов пройдены. Бюджет клиента соблюдён.</p></div><div class="final-grid"><div class="review-shell"><div class="review-head"><h3>Твоя конфигурация</h3><span class="count">8 / 8 КОМПОНЕНТОВ</span></div><div class="review-list" id="build-list"></div></div><div class="final-summary intro-panel"><div class="final-success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m7 12 3 3 7-7"/></svg> Бюджет соблюдён</div><div class="final-label">Итоговая стоимость</div><div class="final-big" id="f-spent">—</div><div class="final-budget-line">из <b id="f-budget">150 000 ₽</b></div><div class="final-divider"></div><div class="final-stat"><span>Осталось</span><strong id="f-left">—</strong></div><div class="final-stat"><span>Оценка сборки</span><strong id="f-perf">—</strong></div><div class="final-comment" id="final-speech"></div></div></div><div class="final-buttons"><button type="button" class="btn" onclick="restartGame()">Собрать ещё раз ↗</button><button type="button" class="btn ghost" onclick="goBack()">Изменить последний компонент</button></div><p class="disclaimer">Цены в этом симуляторе ориентировочные, не являются предложением магазина и могут отличаться от текущих. Ссылки «Проверить DNS» открывают поиск товара в <a href="https://www.dns-shop.ru" target="_blank" rel="noopener noreferrer">DNS</a>. Перед реальной покупкой отдельно проверяйте совместимость процессора, платы, памяти, кулера, корпуса и мощность БП.</p></section>
+  <footer class="footer"><strong>CORECRAFT<span style="color:var(--acid)">.</span></strong><span>Интерактивный PC Builder · Создано для продуманных решений</span><span>© 2026 / BUILD SMARTER</span></footer>
+</div>
+<script>
+const COMPONENTS = [
+{
+  id:'gpu', name:'Видеокарта', icon:'🎮', speaker:'Мастер',
+  text:'С видеокарты всё начинается. От неё зависит, потянет ли сборка <em>1440p</em>. Смотри на объём видеопамяти: 8 ГБ сегодня — впритык, 12–16 ГБ — надолго.',
+  items:[
+    {tier:'high', name:'Palit GeForce RTX 5090 GameRock OC', price:400000, perf:100, note:'Флагман. 4K на ультра — легко. Бюджет клиента улетит в космос.'},
+    {tier:'high', name:'MSI GeForce RTX 5060 Ti GAMING OC 16 ГБ', price:92000, perf:64, note:'Отличный баланс для 1440p. Тихая, с хорошим охлаждением.'},
+    {tier:'high', name:'Palit GeForce RTX 5060 Ti Dual 16 ГБ', price:60000, perf:60, note:'Народный выбор: полноценные 16 ГБ памяти по вменяемой цене.'},
+    {tier:'high', name:'MSI GeForce RTX 5060 Ti VENTUS 2X PLUS OC', price:61000, perf:60, note:'Практичная версия VENTUS. Чуть шумнее GameRock, но дешевле.'},
+    {tier:'high', name:'ASRock Arc B580 Challenger 12GB OC', price:37000, perf:48, note:'Тёмная лошадка от Intel. 12 ГБ VRAM и приятный ценник.'},
+    {tier:'mid', name:'AMD Radeon RX 7600 8 ГБ', price:32280, perf:42, note:'Для 1080p — отлично, для 1440p придётся сбавить настройки.'},
+    {tier:'mid', name:'NVIDIA GeForce RTX 4060 8 ГБ', price:33000, perf:44, note:'DLSS 3 спасает. Но 8 ГБ в 2026-м — это компромисс.'},
+    {tier:'mid', name:'NVIDIA GeForce RTX 3060 12 ГБ', price:53500, perf:38, note:'Ветеран с 12 ГБ. Медленнее, но память не кончится.'},
+    {tier:'mid', name:'AMD Radeon RX 9060 XT 16 ГБ', price:45000, perf:55, note:'Свежая архитектура и 16 ГБ. Хороший задел на будущее.'},
+    {tier:'mid', name:'Intel Arc B580 12 ГБ', price:38000, perf:48, note:'Сильный конкурент в среднем сегменте, если не боишься драйверов Intel.'},
+    {tier:'low', name:'ASRock Arc B570 10 ГБ', price:27000, perf:36, note:'Самый доступный Arc. 1080p с натяжкой, но жить можно.'},
+    {tier:'low', name:'Б/у GeForce RTX 3060 / 4060', price:22000, perf:40, note:'Риск, но за эти деньги — максимум FPS. Проверяй на стресс-тесте.'},
+    {tier:'low', name:'GIGABYTE GeForce GT 1030 Low Profile', price:7500, perf:4, note:'Только для офиса и видео. В игры — нет.'},
+    {tier:'low', name:'GIGABYTE GeForce GT 710 LP', price:8500, perf:2, note:'Затычка для вывода изображения. Серьёзно, только затычка.'},
+    {tier:'low', name:'Встроенная графика процессора', price:0, perf:10, note:'Бесплатно, но 1440p-игры — не сюда. Разве что на минималках в инди.'}
+  ]
+},
+{
+  id:'cpu', name:'Процессор', icon:'🧠', speaker:'Мастер',
+  text:'Процессор задаёт платформу: <em>AM5</em> или <em>LGA1700</em>. Для игр хватает 6 ядер, но чем мощнее видеокарта — тем важнее не уронить CPU.',
+  items:[
+    {tier:'high', name:'AMD Ryzen 7 9800X3D', price:46799, perf:100, note:'Король игр. 3D V-Cache творит чудеса. Мечта любого геймера.'},
+    {tier:'high', name:'AMD Ryzen 9 7950X', price:50000, perf:92, note:'16 ядер для рендера и стримов. В играх — не намного быстрее 7800X3D.'},
+    {tier:'high', name:'AMD Ryzen 7 7800X3D', price:28799, perf:90, note:'Легенда. Лучший игровой процессор за свои деньги.'},
+    {tier:'high', name:'Intel Core i7-14700K', price:39799, perf:88, note:'20 ядер, отличный многопоток. Греется, нужен хороший кулер.'},
+    {tier:'high', name:'Intel Core i7-14700KF', price:39799, perf:87, note:'То же, что 14700K, но без встроенной графики. Чуть дешевле.'},
+    {tier:'mid', name:'AMD Ryzen 7 7700X', price:16899, perf:70, note:'8 ядер на AM5. Универсальный солдат для игр и работы.'},
+    {tier:'mid', name:'AMD Ryzen 5 9600X', price:16400, perf:65, note:'Свежая Zen 5. Экономичный и прохладный.'},
+    {tier:'mid', name:'AMD Ryzen 5 7600', price:14399, perf:62, note:'Золотая середина. Тянет любую видеокарту среднего сегмента.'},
+    {tier:'mid', name:'Intel Core i5-14400F', price:16300, perf:58, note:'10 ядер, стабильность Intel. Хорош для 1080p/1440p.'},
+    {tier:'mid', name:'Intel Core i5-14600KF', price:24999, perf:76, note:'14 ядер, высокие частоты. Требует внимания к охлаждению.'},
+    {tier:'low', name:'AMD Ryzen 5 7500F', price:10499, perf:58, note:'Лучший бюджетный вход в AM5. 6 ядер, отличная цена.'},
+    {tier:'low', name:'AMD Ryzen 5 5600', price:10399, perf:42, note:'Проверенная AM4-классика. Дёшево и сердито.'},
+    {tier:'low', name:'Intel Core i5-12400F', price:11999, perf:46, note:'Народный i5. Хорош для бюджетной игровой сборки.'},
+    {tier:'low', name:'AMD Ryzen 5 5500', price:7500, perf:32, note:'Самый доступный вариант для офисно-игрового ПК.'},
+    {tier:'low', name:'Intel Core i3-14100', price:8500, perf:34, note:'4 ядра. Для офиса и лёгких игр — норм.'}
+  ]
+},
+{
+  id:'mb', name:'Материнская плата', icon:'🔌', speaker:'Мастер',
+  text:'Плата — фундамент. Главное — <em>сокет</em> под процессор и чипсет. Не переплачивай за разгон, если не будешь им пользоваться.',
+  items:[
+    {tier:'high', name:'MSI MPG Z890 EDGE TI WIFI', price:35000, perf:95, note:'Премиум под LGA1851. Всё, что нужно, и даже больше.'},
+    {tier:'high', name:'ASUS ROG Strix B650E-F Gaming WiFi', price:28499, perf:90, note:'Топовая B650E: PCIe 5.0, мощное VRM, красивый дизайн.'},
+    {tier:'high', name:'GIGABYTE B650E AORUS PRO X', price:27000, perf:88, note:'Надёжная плата для Ryzen 7/9. Хорошее охлаждение VRM.'},
+    {tier:'high', name:'ASUS TUF GAMING B650-PLUS WIFI', price:22500, perf:78, note:'Военная надёжность TUF. Отличный баланс цены и функций.'},
+    {tier:'high', name:'MSI MAG B650 TOMAHAWK WIFI', price:20000, perf:80, note:'Народный выбор для AM5. Всё есть, ничего лишнего.'},
+    {tier:'mid', name:'MSI PRO B850-P WIFI', price:13199, perf:70, note:'Свежий чипсет B850. Хорошая база для Ryzen 5/7.'},
+    {tier:'mid', name:'MSI PRO B650-A WIFI', price:11899, perf:62, note:'Проверенная рабочая лошадка AM5.'},
+    {tier:'mid', name:'ASUS PRIME B650M-A II', price:12500, perf:60, note:'Компактная mATX. Отлично встаёт в небольшие корпуса.'},
+    {tier:'mid', name:'MAXSUN Terminator B760BKB D5 WIFI', price:10499, perf:52, note:'Бюджетный B760 с DDR5 и Wi-Fi. Сюрприз за свои деньги.'},
+    {tier:'mid', name:'GIGABYTE B760M DS3H DDR4', price:11000, perf:50, note:'Для Intel на DDR4. Экономия на памяти.'},
+    {tier:'low', name:'MSI PRO A620AM-G EVO WIFI', price:8900, perf:38, note:'Самый дешёвый вход в AM5. Без разгона, но всё работает.'},
+    {tier:'low', name:'ASRock B760M-H2/M.2', price:8000, perf:42, note:'Бюджетная B760 для Intel. Есть M.2 и нормальное питание.'},
+    {tier:'low', name:'GIGABYTE B550 EAGLE (AM4)', price:7500, perf:40, note:'Для старых Ryzen. Дёшево и с PCIe 4.0.'},
+    {tier:'low', name:'MSI PRO H610M-S DDR4', price:5500, perf:30, note:'Минимум для i3/i5 без разгона.'},
+    {tier:'low', name:'DEXP H610M-HVS/DX', price:4800, perf:25, note:'Самая доступная плата. Только самое необходимое.'}
+  ]
+},
+{
+  id:'ram', name:'Оперативная память', icon:'💾', speaker:'Мастер',
+  text:'В 2026-м стандарт — <em>32 ГБ DDR5</em>. Частота 6000 МГц и CL30 — оптимум для AM5. Для AM4 бери DDR4 3200.',
+  items:[
+    {tier:'high', name:'Team Group T-Force Vulcan DDR5 64 ГБ (2×32)', price:109499, perf:90, note:'Для рендера, виртуалок и тяжёлых проектов. Игре столько не надо.'},
+    {tier:'high', name:'Kingston FURY Beast White DDR5 64 ГБ (4×16)', price:44000, perf:88, note:'Много памяти и белый цвет в придачу.'},
+    {tier:'high', name:'G.Skill Trident Z DDR4 64 ГБ (4×16)', price:44000, perf:75, note:'Для AM4-платформ, которым нужно много RAM.'},
+    {tier:'high', name:'G.Skill Trident Z5 RGB DDR5 32 ГБ (2×16)', price:25000, perf:78, note:'Стильная RGB-память с высокой частотой.'},
+    {tier:'high', name:'Kingston FURY Renegade DDR4 128 ГБ (4×32)', price:24000, perf:80, note:'Максимум памяти для рабочей станции на DDR4.'},
+    {tier:'mid', name:'DDR5 32 ГБ (2×16) 6400 МГц', price:14000, perf:72, note:'Быстрый комплект для энтузиастов.'},
+    {tier:'mid', name:'DDR5 32 ГБ (2×16) 6000 МГц CL30', price:12000, perf:70, note:'Идеал для AM5. Стабильно и быстро.'},
+    {tier:'mid', name:'Kingston FURY Beast DDR5 32 ГБ (2×16)', price:13000, perf:68, note:'Проверенный бренд, работает из коробки.'},
+    {tier:'mid', name:'Kingston Fury Renegade DDR4 32 ГБ (2×16)', price:15000, perf:58, note:'Для AM4 с запасом по скорости.'},
+    {tier:'mid', name:'G.Skill Aegis DDR4 32 ГБ (2×16) 3200', price:22799, perf:55, note:'Классика для AM4. Работает везде.'},
+    {tier:'low', name:'DDR5 16 ГБ (1×16) 6000 МГц', price:6000, perf:45, note:'Одна планка — можно добавить вторую позже.'},
+    {tier:'low', name:'DDR5 16 ГБ (2×8) 5200 МГц', price:5500, perf:40, note:'Двухканал на старте. Минимум для DDR5-сборки.'},
+    {tier:'low', name:'DDR4 16 ГБ (2×8) 3200 МГц', price:5300, perf:38, note:'Бюджетный двухканал для AM4/Intel.'},
+    {tier:'low', name:'DDR4 16 ГБ (2×8) 2666 МГц', price:4000, perf:30, note:'Медленно, но дёшево.'},
+    {tier:'low', name:'DDR4 8 ГБ 1600 МГц', price:2850, perf:15, note:'Только для офиса. Игры скажут «нет».'}
+  ]
+},
+{
+  id:'ssd', name:'Накопитель', icon:'💽', speaker:'Мастер',
+  text:'NVMe PCIe 4.0 — новый минимум. <em>1 ТБ</em> хватает на систему и десяток игр. SATA — только если совсем прижало.',
+  items:[
+    {tier:'high', name:'ADATA LEGEND 960 MAX 1 ТБ', price:18399, perf:92, note:'Топовая скорость и радиатор в комплекте.'},
+    {tier:'high', name:'ADATA LEGEND 900 PRO 1 ТБ', price:13000, perf:84, note:'Быстрый PCIe 4.0 с хорошим ресурсом.'},
+    {tier:'high', name:'Samsung 990 EVO Plus 1 ТБ', price:12000, perf:88, note:'Samsung есть Samsung: стабильность и скорость.'},
+    {tier:'high', name:'WD Black SN770 1 ТБ', price:11000, perf:78, note:'Игровой SSD с отличной производительностью.'},
+    {tier:'high', name:'Kingston Fury Renegade 1 ТБ', price:8900, perf:82, note:'Флагманская скорость по приятной цене.'},
+    {tier:'mid', name:'Kingston NV3 1 ТБ', price:12499, perf:65, note:'Народный NVMe. Просто работает и не подводит.'},
+    {tier:'mid', name:'Samsung 980 Pro 1 ТБ', price:11000, perf:80, note:'Проверенный временем PCIe 4.0.'},
+    {tier:'mid', name:'WD Blue SN570 1 ТБ', price:7500, perf:60, note:'Тихий и надёжный для системы и документов.'},
+    {tier:'mid', name:'Crucial P5 Plus 500 ГБ', price:6500, perf:62, note:'Мало объёма, зато быстро. Под систему.'},
+    {tier:'mid', name:'Apacer AS350 PANTHER 1 ТБ (SATA)', price:12299, perf:40, note:'SATA-вариант для старых плат без M.2.'},
+    {tier:'low', name:'ARDOR GAMING Ally AL1282 256 ГБ', price:4700, perf:25, note:'Только под систему. Игры — на HDD или второй SSD.'},
+    {tier:'low', name:'Team Group MP33 512 ГБ', price:3500, perf:35, note:'Бюджетный NVMe. Для нетребовательных задач.'},
+    {tier:'low', name:'AGI AI818 512 ГБ', price:3500, perf:33, note:'Дёшево и сердито, если повезёт с экземпляром.'},
+    {tier:'low', name:'Apacer AS350 PANTHER 128 ГБ', price:5000, perf:18, note:'Совсем мало места, но цена кусается.'},
+    {tier:'low', name:'DEXP C100 128 ГБ (SATA)', price:2300, perf:12, note:'Самый дешёвый вариант. Только для системы.'}
+  ]
+},
+{
+  id:'psu', name:'Блок питания', icon:'⚡', speaker:'Мастер',
+  text:'На БП <em>не экономят</em>. Плохой блок питания может утащить за собой всю сборку. Бери с сертификатом 80+ и запасом по мощности.',
+  items:[
+    {tier:'high', name:'ZALMAN TeraMax II 1000W WHITE', price:11990, perf:90, note:'1000 Вт с запасом на будущее. Белый кабель в комплекте.'},
+    {tier:'high', name:'NGDP Gold 850W', price:11000, perf:85, note:'Гарантия 10 лет — серьёзная заявка.'},
+    {tier:'high', name:'Montech Titan Gold 850W', price:11000, perf:84, note:'Золотой сертификат и модульные кабели.'},
+    {tier:'high', name:'DeepCool DQ750 750W', price:11000, perf:80, note:'Надёжный 750-ваттник для мощной видеокарты.'},
+    {tier:'high', name:'ASUS Prime 750W Gold', price:9790, perf:82, note:'Качественный блок от ASUS с 80+ Gold.'},
+    {tier:'mid', name:'Ocypus Iota P750 750W', price:8899, perf:72, note:'Хороший баланс цены и качества.'},
+    {tier:'mid', name:'Corsair RM750e 750W', price:8500, perf:76, note:'Тихий, надёжный, с полупассивным охлаждением.'},
+    {tier:'mid', name:'ADATA XPG CORE REACTOR II VE 650W', price:8000, perf:68, note:'Проверенная линейка, 80+ Bronze.'},
+    {tier:'mid', name:'Deepcool PM750D 750W', price:6500, perf:62, note:'Народный блок для средних сборок.'},
+    {tier:'mid', name:'Chieftec Polaris 650W', price:5500, perf:55, note:'Бюджетный, но с честными характеристиками.'},
+    {tier:'low', name:'Cougar VTE400 400W', price:4500, perf:22, note:'Только для офисной сборки без видеокарты.'},
+    {tier:'low', name:'Xilence Red Wings 500W', price:3800, perf:28, note:'Для простых сборок. Не нагружай сильно.'},
+    {tier:'low', name:'PCCooler YK550 550W', price:3200, perf:32, note:'Дёшево, но без запаса. Только для базовых ПК.'},
+    {tier:'low', name:'A4Tech Bloody BD-PS550B 550W', price:3200, perf:30, note:'Игровой бренд, но блок — начального уровня.'},
+    {tier:'low', name:'1STPLAYER BLACK.SIR 6.0', price:2999, perf:30, note:'Самый доступный. Для очень скромной сборки.'}
+  ]
+},
+{
+  id:'case', name:'Корпус', icon:'📦', speaker:'Мастер',
+  text:'Корпус — это про <em>продуваемость</em> и размеры. Проверь длину видеокарты и высоту кулера, иначе не влезет.',
+  items:[
+    {tier:'high', name:'LIAN LI LANCOOL III', price:13000, perf:90, note:'Легендарная продуваемость и куча места под всё.'},
+    {tier:'high', name:'Corsair FRAME 4000D RS ARGB', price:13199, perf:88, note:'Стиль, стекло и отличный airflow.'},
+    {tier:'high', name:'Thermaltake View 380 TG ARGB Snow', price:12799, perf:82, note:'Белый, с панорамным стеклом. Красота!'},
+    {tier:'high', name:'DEEPCOOL CG380U 3F', price:5800, perf:72, note:'Три вентилятора в комплекте и mesh-фронт.'},
+    {tier:'high', name:'MONTECH X5', price:5500, perf:70, note:'Фаворит по цене и качеству в среднем сегменте.'},
+    {tier:'mid', name:'ARDOR GAMING Rare M4', price:3100, perf:55, note:'Сетка, стекло, ARGB — всё за небольшие деньги.'},
+    {tier:'mid', name:'Ocypus Gamma C70 ARGB', price:2600, perf:50, note:'Хороший бюджетный корпус с подсветкой.'},
+    {tier:'mid', name:'1STPLAYER TRILOBITE T4-G', price:2250, perf:45, note:'Просто, со вкусом и дёшево.'},
+    {tier:'mid', name:'Cougar MX160 ARGB', price:3500, perf:52, note:'Надёжный бренд, аккуратная сборка.'},
+    {tier:'mid', name:'MONTECH X2 MESH', price:3000, perf:55, note:'Mesh-фронт и приятный ценник.'},
+    {tier:'low', name:'ZALMAN T8', price:2600, perf:40, note:'Классика жанра, влезает почти всё.'},
+    {tier:'low', name:'Cepphus Gamma G50', price:1800, perf:30, note:'Максимально бюджетно, но со стеклом.'},
+    {tier:'low', name:'Hastra A307M', price:1700, perf:32, note:'Простой mATX-корпус для скромной сборки.'},
+    {tier:'low', name:'Ocypus Gamma C50', price:1600, perf:35, note:'Дёшево и с нормальной продуваемостью.'},
+    {tier:'low', name:'DEXP DCV-200B', price:1150, perf:18, note:'Совсем простой. Только чтобы всё влезло.'}
+  ]
+},
+{
+  id:'cool', name:'Охлаждение CPU', icon:'❄️', speaker:'Мастер',
+  text:'Последний штрих — <em>кулер</em>. Для Ryzen 5 и i5 хватит башни за 1500–2000 ₽. Для горячих i7/i9 — серьёзнее.',
+  items:[
+    {tier:'high', name:'Noctua NH-D15', price:11000, perf:95, note:'Легенда воздушного охлаждения. Тихий и невероятно эффективный.'},
+    {tier:'high', name:'DEEPCOOL LT520 (СВО 240 мм)', price:9000, perf:88, note:'Водянка для горячих процессоров и красивого вида.'},
+    {tier:'high', name:'DeepCool AK620', price:6000, perf:85, note:'Двухбашенный монстр за вменяемые деньги.'},
+    {tier:'high', name:'MONTECH NX400 ARGB', price:1950, perf:60, note:'Отличная башня с подсветкой за копейки.'},
+    {tier:'high', name:'ID-COOLING IS-53-XT BLACK', price:1950, perf:55, note:'Низкопрофильный, для тесных корпусов.'},
+    {tier:'mid', name:'Башня с 4 теплотрубками', price:1800, perf:50, note:'Универсальное решение для большинства сборок.'},
+    {tier:'mid', name:'DEXP DPC-O2000H', price:1500, perf:45, note:'Простой, но справляется с Ryzen 5 и i5.'},
+    {tier:'mid', name:'ID-COOLING IS-23i BLACK', price:1250, perf:40, note:'Компактный, для невысоких корпусов.'},
+    {tier:'mid', name:'DEEPCOOL GAMMA ARCHER', price:1000, perf:35, note:'Бюджетная башня, лучше боксового кулера.'},
+    {tier:'mid', name:'Пришелец-VA1100', price:750, perf:30, note:'Народный бюджетный вариант. Тише стока.'},
+    {tier:'low', name:'Б/у кулер с AM4/LGA1700', price:800, perf:25, note:'Риск, но за эти деньги — норм.'},
+    {tier:'low', name:'Простой алюминиевый радиатор', price:700, perf:10, note:'Только для самых холодных процессоров.'},
+    {tier:'low', name:'DEXP DPC-S2000H', price:580, perf:15, note:'Совсем базовый вариант.'},
+    {tier:'low', name:'Вентилятор 80–92 мм', price:400, perf:8, note:'Если есть крепление — сойдёт как временное решение.'},
+    {tier:'low', name:'Боксовый кулер из комплекта CPU', price:0, perf:20, note:'Бесплатно. Для Ryzen 5 5600 или i3 хватит.'}
+  ]
+}
+];
+const BUDGET=150000;
+const INTRO=[
+'Привет! Мне нужен компьютер для игр в <em>1440p</em>. Бюджет — <em>150 000 ₽</em>. Сможешь собрать?',
+'Только давай без переплат за подсветку. Мне важна <em>производительность</em>, а не RGB.',
+'И ещё: хочу, чтобы через пару лет его можно было <em>апгрейдить</em>. Ну что, поехали?'
+];
+const state={budget:BUDGET,spent:0,perf:0,current:0,picks:{},selected:null,activeTab:'high',introStep:0};
+const $=id=>document.getElementById(id);
+const fmt=n=>Number(n).toLocaleString('ru-RU')+' ₽';
+const dnsLink=q=>'https://www.dns-shop.ru/search/?q='+encodeURIComponent(q);
+const iconPaths={
+gpu:'<rect x="2" y="5" width="20" height="13" rx="2"/><path d="M6 22h12M12 18v4M6 9h8M6 13h5"/>',
+cpu:'<rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 1v4m6-4v4M9 19v4m6-4v4M19 9h4m-4 6h4M1 9h4m-4 6h4"/>',
+mb:'<rect x="3" y="3" width="18" height="18" rx="2"/><rect x="6" y="6" width="8" height="8" rx="1"/><path d="M17 7h1M17 11h1M7 17h10M11 14v3"/>',
+ram:'<rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7v10m4-10v10m4-10v10m4-10v10M7 17v3m5-3v3m5-3v3"/>',
+ssd:'<rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9h10M7 13h7M17 16h.01"/>',
+psu:'<path d="m13 2-9 11h7l-1 9 10-12h-7z"/>',
+case:'<rect x="6" y="2" width="12" height="20" rx="2"/><circle cx="12" cy="8" r="2"/><circle cx="12" cy="16" r="2"/>',
+cool:'<path d="M12 2v20M4.9 4.9l14.2 14.2M2 12h20M19.1 4.9 4.9 19.1M9 5l3-3 3 3M9 19l3 3 3-3"/>'
+};
+function iconSvg(id){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(iconPaths[id]||iconPaths.cpu)+'</svg>'}
+function safeText(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function minCost(comp){return Math.min(...comp.items.map(x=>x.price))}
+function reservedAfter(step){return COMPONENTS.slice(step+1).reduce((sum,c)=>sum+minCost(c),0)}
+function currentCap(){return Math.max(0,state.budget-state.spent-reservedAfter(state.current))}
+function affordable(item){return item.price<=currentCap() && state.spent+item.price<=state.budget}
+function recount(){state.spent=Object.values(state.picks).reduce((n,p)=>n+p.price,0);state.perf=Object.values(state.picks).reduce((n,p)=>n+p.perf,0)}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));$(id).classList.add('on');$('hud').classList.toggle('on',id==='s-select'||id==='s-final');window.scrollTo({top:0,behavior:'instant'})}
+function updateHUD(){const left=state.budget-state.spent;$('h-budget').textContent=fmt(state.budget);$('h-spent').textContent=fmt(state.spent);$('h-left').textContent=fmt(left);$('h-step').textContent=state.current+' / '+COMPONENTS.length;$('h-bar').style.width=(state.current/COMPONENTS.length*100)+'%'}
+function startGame(){state.introStep=0;$('intro-text').innerHTML=INTRO[0];renderIntroDots();show('s-intro')}
+function renderIntroDots(){$('intro-dots').innerHTML=INTRO.map((_,i)=>'<i class="'+(i===state.introStep?'active':'')+'"></i>').join('');$('intro-btn').innerHTML=state.introStep===INTRO.length-1?'К подбору <span aria-hidden="true">→</span>':'Продолжить <span aria-hidden="true">→</span>'}
+function nextIntro(){state.introStep++;if(state.introStep<INTRO.length){$('intro-text').innerHTML=INTRO[state.introStep];renderIntroDots()}else{state.current=0;renderSelection()}}
+function renderSelection(){
+ if(state.current>=COMPONENTS.length){finish();return}
+ const comp=COMPONENTS[state.current];state.selected=null;
+ const prefer=['high','mid','low'];state.activeTab=prefer.find(t=>comp.items.some(x=>x.tier===t&&affordable(x)))||'low';
+ $('step-kicker').textContent='Этап '+String(state.current+1).padStart(2,'0')+' / '+String(COMPONENTS.length).padStart(2,'0');
+ $('sel-icon').innerHTML=iconSvg(comp.id);$('sel-title').textContent=comp.name;$('sel-text').innerHTML=comp.text;
+ $('steps').innerHTML=COMPONENTS.map((_,i)=>'<div class="step-button '+(i<state.current?'done':i===state.current?'now':'')+'" title="'+safeText(COMPONENTS[i].name)+'"></div>').join('');
+ $('back-btn').disabled=state.current===0;
+ updateHUD();updateAside();updateConfirm();document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tier===state.activeTab));renderGrid();show('s-select');
+}
+function updateAside(){let reserve=reservedAfter(state.current);let cap=currentCap();let free=state.budget-state.spent;
+ $('aside-cap').textContent=fmt(cap);$('aside-budget').textContent=fmt(state.budget);$('aside-spent').textContent=fmt(state.spent);$('aside-reserve').textContent=fmt(reserve);$('aside-limit').textContent=fmt(cap);
+ $('aside-meter').style.width=Math.max(0,Math.min(100,state.spent/state.budget*100))+'%';
+ $('cap-copy').innerHTML='На этот компонент доступно <strong>'+fmt(cap)+'</strong>. '+(reserve?'Ещё <strong>'+fmt(reserve)+'</strong> сохраняем на остальные детали.':'Это последний этап — весь остаток можно использовать.');
+ $('picked-list').innerHTML=Object.keys(state.picks).length?COMPONENTS.filter(c=>state.picks[c.id]).map(c=>'<div class="picked-item"><span title="'+safeText(state.picks[c.id].name)+'">'+safeText(c.name)+'</span><b>'+fmt(state.picks[c.id].price)+'</b></div>').join(''):'<p class="picked-empty">Пока пусто. Начни с первого компонента.</p>';
+}
+function setTab(tier){if(!['high','mid','low'].includes(tier))return;state.activeTab=tier;state.selected=null;document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tier===tier));updateConfirm();renderGrid()}
+function renderGrid(){
+ const comp=COMPONENTS[state.current];const items=comp.items.filter(i=>i.tier===state.activeTab);const cap=currentCap();
+ $('found-count').textContent='Доступно '+items.filter(affordable).length+' из '+items.length;
+ const grid=$('grid');grid.innerHTML='';
+ items.forEach((item,idx)=>{
+  const ok=affordable(item),over=item.price-cap;const card=document.createElement('article');card.className='product'+(ok?'':' unavailable');card.tabIndex=ok?0:-1;card.setAttribute('role','button');card.setAttribute('aria-disabled',String(!ok));card.setAttribute('aria-pressed','false');card.setAttribute('aria-label',item.name+', '+fmt(item.price)+(ok?', доступен':', превышает лимит этапа на '+fmt(over)));
+  card.innerHTML='<div class="product-top"><span class="product-glyph">'+iconSvg(comp.id)+'</span><span class="product-number">'+String(idx+1).padStart(2,'0')+' / '+String(items.length).padStart(2,'0')+'</span></div><div class="product-check">✓</div><h3 class="product-name">'+safeText(item.name)+'</h3><p class="product-note">'+safeText(item.note)+'</p><div class="product-bottom"><div><div class="product-price '+(item.price===0?'zero':'')+'">'+(item.price===0?'0 ₽':fmt(item.price))+'</div><span class="product-status '+(ok?'':'no')+'">'+(ok?'Укладывается в лимит':'Выше лимита на '+fmt(over))+'</span></div><a class="dns-link" href="'+dnsLink(item.name)+'" target="_blank" rel="noopener noreferrer" aria-label="Проверить '+safeText(item.name)+' в DNS">Проверить DNS ↗</a></div>';
+  card.addEventListener('click',e=>{if(e.target.closest('a'))return;selectCard(card,item)});
+  card.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&ok&&!e.target.closest('a')){e.preventDefault();selectCard(card,item)}});
+  grid.appendChild(card);
+ });
+}
+function selectCard(card,item){if(!affordable(item))return;document.querySelectorAll('.product').forEach(c=>{c.classList.remove('selected');c.setAttribute('aria-pressed','false')});card.classList.add('selected');card.setAttribute('aria-pressed','true');state.selected=item;updateConfirm()}
+function updateConfirm(){const item=state.selected;$('confirm-name').textContent=item?item.name:'Выберите комплектующее';$('confirm-price').textContent=item?'Стоимость: '+fmt(item.price)+' · Остаток после выбора: '+fmt(state.budget-state.spent-item.price):'Сначала выбери доступную позицию';$('confirm-btn').disabled=!item||!affordable(item)}
+function confirmPick(){
+ const item=state.selected;if(!item||!affordable(item))return;
+ const c=COMPONENTS[state.current];if(state.picks[c.id])return;
+ // Повторная проверка прямо перед записью: никакой выбор не может превысить общий лимит.
+ if(state.spent+item.price+reservedAfter(state.current)>state.budget)return;
+ state.picks[c.id]={name:item.name,price:item.price,perf:item.perf};recount();state.current++;state.selected=null;
+ if(state.current>=COMPONENTS.length)finish();else renderSelection();
+}
+function goBack(){if(state.current<=0)return;state.current--;delete state.picks[COMPONENTS[state.current].id];recount();renderSelection()}
+function restartGame(){state.picks={};state.spent=0;state.perf=0;state.current=0;state.selected=null;state.activeTab='high';show('s-title')}
+function finish(){
+ recount();if(state.spent>state.budget){throw new Error('Budget protection invariant violated')}
+ const perf=state.perf;let speech,verdict;
+ if(perf>=620){speech='Отлично! Мощная сборка и никаких сюрпризов по стоимости. То, что нужно!';verdict='Очень мощно.'}
+ else if(perf>=500){speech='Класс! Хороший баланс производительности и цены, в бюджет уложились.';verdict='Отличная работа.'}
+ else if(perf>=400){speech='Хороший старт! Есть куда расти, зато с бюджетом всё чётко.';verdict='Уверенная сборка.'}
+ else{speech='Для некоторых игр придётся снижать настройки, но мы не потратили лишнего. Можно улучшить подбор.';verdict='Есть потенциал.'}
+ $('final-verdict').textContent=verdict;$('final-speech').textContent='Алексей: «'+speech+'»';$('f-spent').textContent=fmt(state.spent);$('f-budget').textContent=fmt(state.budget);$('f-left').textContent=fmt(state.budget-state.spent);$('f-perf').textContent=perf+' / 752';
+ $('build-list').innerHTML=COMPONENTS.map(c=>{const p=state.picks[c.id];if(!p)return '';return '<div class="review-row"><span class="review-icon">'+iconSvg(c.id)+'</span><span class="review-label">'+safeText(c.name)+'</span><span class="review-name">'+safeText(p.name)+'</span><span class="review-price">'+fmt(p.price)+'</span></div>'}).join('');
+ updateHUD();show('s-final');
+}
+// Проверка непротиворечивости каталога: суммарный минимум обязан быть не выше бюджета.
+if(COMPONENTS.reduce((n,c)=>n+minCost(c),0)>BUDGET){throw new Error('Не существует сборки в пределах бюджета')}
+</script>
+</body>
+</html>
